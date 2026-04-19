@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Surtika</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="cssanimation.min.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">Surtika Admin</div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-item active" onclick="switchTab('dashboard')">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                Dashboard
+            </div>
+            <div class="nav-item" onclick="switchTab('products')">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                Products
+            </div>
+            <div class="nav-item" onclick="switchTab('orders')">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                Orders
+            </div>
+            <div class="nav-item" onclick="switchTab('customers')">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                Customers
+            </div>
+            <div class="nav-item" onclick="switchTab('analytics')">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                Analytics
+            </div>
+            <div class="nav-item" style="margin-top: auto;" onclick="switchTab('settings')">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                Settings
+            </div>
+            <div class="nav-item" onclick="window.location.href='index.html'">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                Back to Store
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Topbar -->
+        <header class="topbar">
+            <div class="flex items-center">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                <div class="search-bar">
+                    <svg width="20" height="20" fill="none" stroke="var(--admin-text-muted)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <input type="text" placeholder="Search orders, products, or customers...">
+                </div>
+            </div>
+            <div class="topbar-right">
+                <button class="icon-btn">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                    <span class="badge">3</span>
+                </button>
+                <div class="profile-dropdown">
+                    <div class="profile-avatar">A</div>
+                    <span class="font-medium text-sm">Admin User</span>
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dynamic Content Area -->
+        <div class="content-wrapper">
+            
+            <!-- Dashboard View -->
+            <div id="dashboard-view" class="tab-content active">
+                <div class="page-header">
+                    <h1 class="page-title">Dashboard Overview</h1>
+                    <button class="btn-primary">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Download Report
+                    </button>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Total Revenue</span>
+                            <div class="stat-icon icon-blue">
+                                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="stat-value">₹24,56,800</div>
+                        <div class="stat-change text-success">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+                            <span>12.5% from last month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Active Orders</span>
+                            <div class="stat-icon icon-green">
+                                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="stat-value">142</div>
+                        <div class="stat-change text-success">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+                            <span>4.1% from last month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Unique Visitors</span>
+                            <div class="stat-icon icon-purple">
+                                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="stat-value">48,200</div>
+                        <div class="stat-change text-danger">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                            <span>1.2% from last month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Conversion Rate</span>
+                            <div class="stat-icon icon-orange">
+                                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                            </div>
+                        </div>
+                        <div class="stat-value">3.24%</div>
+                        <div class="stat-change text-success">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+                            <span>0.5% from last month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Grid (Chart & Table) -->
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Sales Overview</h3>
+                            <select style="border: 1px solid var(--admin-border); border-radius: 4px; padding: 4px 8px; font-size: 0.75rem; outline: none;">
+                                <option>Last 7 Days</option>
+                                <option>Last 30 Days</option>
+                                <option>This Year</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <div class="bar-col"><div class="bar" style="height: 40%"></div><span class="bar-label">Mon</span></div>
+                            <div class="bar-col"><div class="bar" style="height: 60%"></div><span class="bar-label">Tue</span></div>
+                            <div class="bar-col"><div class="bar" style="height: 35%"></div><span class="bar-label">Wed</span></div>
+                            <div class="bar-col"><div class="bar" style="height: 80%"></div><span class="bar-label">Thu</span></div>
+                            <div class="bar-col"><div class="bar" style="height: 95%"></div><span class="bar-label">Fri</span></div>
+                            <div class="bar-col"><div class="bar" style="height: 65%"></div><span class="bar-label">Sat</span></div>
+                            <div class="bar-col"><div class="bar" style="height: 50%"></div><span class="bar-label">Sun</span></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Top Products</h3>
+                        </div>
+                        <div style="padding: 0;">
+                            <table style="width: 100%;">
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 16px;">
+                                            <div class="product-cell">
+                                                <img src="assets/crimson_saree.png" class="product-thumb">
+                                                <div>
+                                                    <div class="font-medium text-sm">Crimson Chai Saree</div>
+                                                    <div class="text-xs text-muted">42 sales</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="font-semibold text-sm">₹6,09,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 16px;">
+                                            <div class="product-cell">
+                                                <img src="assets/clove_overlay.png" class="product-thumb">
+                                                <div>
+                                                    <div class="font-medium text-sm">Clove Structured Overlay</div>
+                                                    <div class="text-xs text-muted">28 sales</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="font-semibold text-sm">₹3,58,400</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 16px;">
+                                            <div class="product-cell">
+                                                <img src="assets/turmeric_tunic.png" class="product-thumb">
+                                                <div>
+                                                    <div class="font-medium text-sm">Turmeric Silk Tunic</div>
+                                                    <div class="text-xs text-muted">15 sales</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="font-semibold text-sm">₹1,23,000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Orders -->
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-header">
+                        <h3 class="card-title">Recent Orders</h3>
+                        <button class="btn-secondary" style="font-size: 0.75rem; padding: 4px 12px;">View All</button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-medium">#ORD-9824</td>
+                                    <td>Aditi Sharma</td>
+                                    <td class="text-muted">Apr 18, 2026</td>
+                                    <td class="font-medium">₹14,500</td>
+                                    <td><span class="status-badge status-completed">Delivered</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">#ORD-9825</td>
+                                    <td>Rohan Verma</td>
+                                    <td class="text-muted">Apr 18, 2026</td>
+                                    <td class="font-medium">₹27,300</td>
+                                    <td><span class="status-badge status-pending">Processing</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">#ORD-9826</td>
+                                    <td>Priya Kapoor</td>
+                                    <td class="text-muted">Apr 17, 2026</td>
+                                    <td class="font-medium">₹8,200</td>
+                                    <td><span class="status-badge status-completed">Delivered</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">#ORD-9827</td>
+                                    <td>Karan Patel</td>
+                                    <td class="text-muted">Apr 16, 2026</td>
+                                    <td class="font-medium">₹12,800</td>
+                                    <td><span class="status-badge status-cancelled">Cancelled</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products View -->
+            <div id="products-view" class="tab-content">
+                <div class="page-header">
+                    <h1 class="page-title">Products Inventory</h1>
+                    <button class="btn-primary" onclick="openModal('addProductModal')">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        Add Product
+                    </button>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="search-bar" style="background-color: var(--admin-bg); margin: 0; border: 1px solid var(--admin-border);">
+                            <svg width="20" height="20" fill="none" stroke="var(--admin-text-muted)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            <input type="text" placeholder="Search products...">
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table id="products-table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Rows will be generated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders View -->
+            <div id="orders-view" class="tab-content">
+                <div class="page-header">
+                    <h1 class="page-title">Live Orders Tracker</h1>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+                        <div class="search-bar" style="background-color: var(--admin-bg); margin: 0; border: 1px solid var(--admin-border);">
+                            <svg width="20" height="20" fill="none" stroke="var(--admin-text-muted)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            <input type="text" id="order-search" placeholder="Search orders...">
+                        </div>
+                        <div style="display:flex; gap:8px;" id="order-filters">
+                            <button class="btn-primary" style="padding: 6px 12px; font-size: 14px;" onclick="filterOrders('All')">All</button>
+                            <button class="btn-secondary" style="padding: 6px 12px; font-size: 14px; background:var(--admin-bg); color:var(--admin-text); border:1px solid var(--admin-border);" onclick="filterOrders('Confirmed')">Pending</button>
+                            <button class="btn-secondary" style="padding: 6px 12px; font-size: 14px; background:var(--admin-bg); color:var(--admin-text); border:1px solid var(--admin-border);" onclick="filterOrders('Processing')">Processing</button>
+                            <button class="btn-secondary" style="padding: 6px 12px; font-size: 14px; background:var(--admin-bg); color:var(--admin-text); border:1px solid var(--admin-border);" onclick="filterOrders('Shipped')">Shipped</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table id="orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Date</th>
+                                    <th>Payment</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Items</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-tbody">
+                                <!-- Orders injected by JS -->
+                                <tr><td colspan="7" style="text-align:center; padding: 20px;">Loading orders from Firebase...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customers View -->
+            <div id="customers-view" class="tab-content">
+                <div class="page-header">
+                    <h1 class="page-title">Customers</h1>
+                    <button class="btn-primary" style="background:var(--admin-dark); border-color:var(--admin-dark);">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        Add Customer
+                    </button>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="search-bar" style="background-color: var(--admin-bg); margin: 0; border: 1px solid var(--admin-border);">
+                            <svg width="20" height="20" fill="none" stroke="var(--admin-text-muted)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            <input type="text" placeholder="Search customers by name or email...">
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Email</th>
+                                    <th>Location</th>
+                                    <th>Total Orders</th>
+                                    <th>Total Spent</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customers-tbody">
+                                <tr><td colspan="6" style="text-align:center; padding: 20px;">Loading customers from Firebase...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics View -->
+            <div id="analytics-view" class="tab-content">
+                <div class="page-header">
+                    <h1 class="page-title">Store Analytics</h1>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Traffic Sources</h3>
+                        </div>
+                        <div style="padding:20px; display:flex; flex-direction:column; gap:16px;">
+                            <div>
+                                <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:14px;">
+                                    <span>Instagram</span>
+                                    <span class="font-medium">45%</span>
+                                </div>
+                                <div style="width:100%; background:var(--admin-bg); height:8px; border-radius:4px; overflow:hidden;">
+                                    <div style="width:45%; background:linear-gradient(90deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); height:100%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:14px;">
+                                    <span>Direct Search (Google)</span>
+                                    <span class="font-medium">35%</span>
+                                </div>
+                                <div style="width:100%; background:var(--admin-bg); height:8px; border-radius:4px; overflow:hidden;">
+                                    <div style="width:35%; background:#4285f4; height:100%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:14px;">
+                                    <span>Referrals</span>
+                                    <span class="font-medium">20%</span>
+                                </div>
+                                <div style="width:100%; background:var(--admin-bg); height:8px; border-radius:4px; overflow:hidden;">
+                                    <div style="width:20%; background:#34a853; height:100%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Weekly Revenue Growth</h3>
+                        </div>
+                        <div style="padding:20px; text-align:center;">
+                            <div style="font-size:36px; font-weight:800; color:var(--admin-success); margin-bottom:8px;">+24.8%</div>
+                            <p class="text-muted" style="margin-bottom:20px;">Compared to previous week (₹1,24,000)</p>
+                            <svg width="100%" height="100" viewBox="0 0 400 100" preserveAspectRatio="none">
+                                <path d="M0,80 Q50,90 100,60 T200,40 T300,50 T400,10" fill="none" stroke="#10b981" stroke-width="4" stroke-linecap="round"></path>
+                                <circle cx="100" cy="60" r="4" fill="#10b981"></circle>
+                                <circle cx="200" cy="40" r="4" fill="#10b981"></circle>
+                                <circle cx="300" cy="50" r="4" fill="#10b981"></circle>
+                                <circle cx="400" cy="10" r="6" fill="#10b981"></circle>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings View -->
+            <div id="settings-view" class="tab-content">
+                <div class="page-header">
+                    <h1 class="page-title">Store Settings</h1>
+                    <button class="btn-primary">Save Changes</button>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Payment Methods</h3>
+                        </div>
+                        <div style="padding:20px; display:flex; flex-direction:column; gap:20px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div>
+                                    <div class="font-medium">Cash on Delivery (COD)</div>
+                                    <div class="text-xs text-muted">Allow customers to pay upon delivery</div>
+                                </div>
+                                <label style="position:relative; display:inline-block; width:44px; height:24px;">
+                                    <input type="checkbox" checked style="opacity:0; width:0; height:0;">
+                                    <span style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#10b981; transition:.4s; border-radius:34px;">
+                                        <span style="position:absolute; content:''; height:18px; width:18px; left:3px; bottom:3px; background-color:white; transition:.4s; border-radius:50%; transform:translateX(20px);"></span>
+                                    </span>
+                                </label>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div>
+                                    <div class="font-medium">Stripe Credit Cards</div>
+                                    <div class="text-xs text-muted">Accept Visa, MasterCard, Amex</div>
+                                </div>
+                                <label style="position:relative; display:inline-block; width:44px; height:24px;">
+                                    <input type="checkbox" checked style="opacity:0; width:0; height:0;">
+                                    <span style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#10b981; transition:.4s; border-radius:34px;">
+                                        <span style="position:absolute; content:''; height:18px; width:18px; left:3px; bottom:3px; background-color:white; transition:.4s; border-radius:50%; transform:translateX(20px);"></span>
+                                    </span>
+                                </label>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div>
+                                    <div class="font-medium">UPI / Razorpay</div>
+                                    <div class="text-xs text-muted">Accept Google Pay, PhonePe, Paytm</div>
+                                </div>
+                                <label style="position:relative; display:inline-block; width:44px; height:24px;">
+                                    <input type="checkbox" style="opacity:0; width:0; height:0;">
+                                    <span style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#ccc; transition:.4s; border-radius:34px;">
+                                        <span style="position:absolute; content:''; height:18px; width:18px; left:3px; bottom:3px; background-color:white; transition:.4s; border-radius:50%;"></span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Store Details</h3>
+                        </div>
+                        <div style="padding:20px; display:flex; flex-direction:column; gap:16px;">
+                            <div>
+                                <label class="text-xs text-muted" style="display:block; margin-bottom:4px;">Store Name</label>
+                                <input type="text" value="Surtika" style="width:100%; padding:10px; border:1px solid var(--admin-border); border-radius:6px; outline:none; background:var(--admin-bg); color:var(--admin-text);">
+                            </div>
+                            <div>
+                                <label class="text-xs text-muted" style="display:block; margin-bottom:4px;">Support Email</label>
+                                <input type="email" value="support@surtika.com" style="width:100%; padding:10px; border:1px solid var(--admin-border); border-radius:6px; outline:none; background:var(--admin-bg); color:var(--admin-text);">
+                            </div>
+                            <div>
+                                <label class="text-xs text-muted" style="display:block; margin-bottom:4px;">Flat Shipping Rate (₹)</label>
+                                <input type="number" value="0" style="width:100%; padding:10px; border:1px solid var(--admin-border); border-radius:6px; outline:none; background:var(--admin-bg); color:var(--admin-text);">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Add Product Modal -->
+    <div class="modal-overlay" id="addProductModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Product</h3>
+                <button class="close-modal" onclick="closeModal('addProductModal')">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <form onsubmit="handleAddProduct(event)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Product Name</label>
+                        <input type="text" id="p-name" class="form-input" required placeholder="e.g., Midnight Blue Kurta">
+                    </div>
+                    <div class="form-group" style="display: flex; gap: 16px;">
+                        <div style="flex: 1;">
+                            <label class="form-label">Price (₹)</label>
+                            <input type="number" id="p-price" class="form-input" required placeholder="0.00">
+                        </div>
+                        <div style="flex: 1;">
+                            <label class="form-label">Stock</label>
+                            <input type="number" id="p-stock" class="form-input" required placeholder="10">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Category</label>
+                        <select id="p-category" class="form-input" required>
+                            <option value="Saree">Saree</option>
+                            <option value="Tunic">Tunic</option>
+                            <option value="Dress">Dress</option>
+                            <option value="Accessory">Accessory</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('addProductModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { collection, query, orderBy, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { db } from './firebase-config.js';
+        
+        window.allOrders = [];
+        window.currentOrderFilter = 'All';
+        
+        window.filterOrders = (status) => {
+            window.currentOrderFilter = status;
+            
+            // Update button styles
+            const buttons = document.querySelectorAll('#order-filters button');
+            buttons.forEach(btn => {
+                if (btn.innerText === status || (btn.innerText === 'Pending' && status === 'Confirmed')) {
+                    btn.className = 'btn-primary';
+                    btn.style.background = '';
+                    btn.style.color = '';
+                    btn.style.border = '';
+                } else {
+                    btn.className = 'btn-secondary';
+                    btn.style.background = 'var(--admin-bg)';
+                    btn.style.color = 'var(--admin-text)';
+                    btn.style.border = '1px solid var(--admin-border)';
+                }
+            });
+            
+            renderOrders();
+        };
+
+        window.updateOrderStatus = async (orderId, selectElement) => {
+            const newStatus = selectElement.value;
+            selectElement.disabled = true;
+            try {
+                await updateDoc(doc(db, 'orders', orderId), { status: newStatus });
+                // Note: The onSnapshot listener will automatically re-render the UI
+            } catch (err) {
+                alert("Failed to update status: " + err.message);
+                selectElement.disabled = false;
+            }
+        };
+
+        const renderOrders = () => {
+            const tbody = document.getElementById('orders-tbody');
+            if(!tbody) return;
+            
+            let filtered = window.allOrders;
+            if (window.currentOrderFilter !== 'All') {
+                filtered = window.allOrders.filter(o => o.status === window.currentOrderFilter);
+            }
+            
+            if(filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 20px;">No orders found.</td></tr>';
+                return;
+            }
+            
+            let html = '';
+            filtered.forEach(data => {
+                const id = data.orderNumber ? data.orderNumber : '#ORD-' + data.id.substring(0, 8).toUpperCase();
+                const date = data.timestamp ? data.timestamp.toDate().toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'}) : 'Just now';
+                const payment = data.paymentMethod ? data.paymentMethod.toUpperCase() : 'N/A';
+                
+                let itemsList = (data.items || []).map(item => `${item.quantity}x ${item.name}`).join(', ');
+                
+                let statusColor = '#f59e0b'; // Confirmed/Pending
+                if(data.status === 'Processing') statusColor = '#3b82f6';
+                if(data.status === 'Shipped') statusColor = '#10b981';
+                
+                html += `
+                <tr>
+                    <td class="font-medium" title="${data.id}">${id}</td>
+                    <td>
+                        <div class="font-medium">${data.shippingDetails ? data.shippingDetails.name : 'Guest'}</div>
+                        <div class="text-xs text-muted">${data.shippingDetails ? data.shippingDetails.phone : ''}</div>
+                        <div class="text-xs text-muted" style="max-width:200px; white-space:normal;">${data.shippingDetails ? data.shippingDetails.address + ', ' + data.shippingDetails.city : ''}</div>
+                    </td>
+                    <td class="text-muted">${date}</td>
+                    <td>${payment}</td>
+                    <td class="font-medium">₹${(data.total || 0).toLocaleString('en-IN')}</td>
+                    <td>
+                        <select onchange="updateOrderStatus('${data.id}', this)" style="padding: 4px 8px; border-radius: 4px; border: 1px solid ${statusColor}; color: ${statusColor}; background: transparent; font-size: 12px; font-weight: 600; outline: none; cursor: pointer;">
+                            <option value="Confirmed" ${data.status === 'Confirmed' ? 'selected' : ''}>Pending</option>
+                            <option value="Processing" ${data.status === 'Processing' ? 'selected' : ''}>Processing</option>
+                            <option value="Shipped" ${data.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                        </select>
+                    </td>
+                    <td class="text-xs" style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${itemsList}">${itemsList}</td>
+                </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        };
+
+        const renderCustomers = () => {
+            const tbody = document.getElementById('customers-tbody');
+            if(!tbody) return;
+
+            if(window.allOrders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 20px;">No customers found.</td></tr>';
+                return;
+            }
+
+            // Aggregate customers from orders
+            const customersMap = {};
+            window.allOrders.forEach(order => {
+                // Try to use email, fallback to phone, fallback to name
+                const details = order.shippingDetails || {};
+                const name = details.name || 'Guest User';
+                // Try to get email if available, otherwise use phone as unique identifier
+                let identifier = order.userId;
+                if (!identifier || identifier === 'guest') {
+                    identifier = details.phone || name;
+                }
+
+                if (!customersMap[identifier]) {
+                    customersMap[identifier] = {
+                        name: name,
+                        email: order.userId !== 'guest' ? 'Registered User' : 'Guest',
+                        location: (details.city || '') + (details.city && details.pin ? ', ' : '') + (details.pin || ''),
+                        totalOrders: 0,
+                        totalSpent: 0
+                    };
+                }
+                
+                customersMap[identifier].totalOrders += 1;
+                customersMap[identifier].totalSpent += (order.total || 0);
+                
+                // Keep the most recent location/name if not set
+                if (!customersMap[identifier].location && details.city) {
+                    customersMap[identifier].location = details.city;
+                }
+            });
+
+            const customersList = Object.values(customersMap).sort((a, b) => b.totalSpent - a.totalSpent);
+
+            let html = '';
+            customersList.forEach(data => {
+                const initials = data.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                
+                // Deterministic color based on initials
+                const colors = ['#e8f0fe', '#fce8e6', '#e6f4ea', '#fef7e0', '#f3e8fd'];
+                const textColors = ['#1a73e8', '#d93025', '#1e8e3e', '#e37400', '#9334e6'];
+                const colorIdx = data.name.length % colors.length;
+                
+                html += `
+                <tr>
+                    <td>
+                        <div class="product-cell">
+                            <div style="width:32px;height:32px;border-radius:50%;background:${colors[colorIdx]};color:${textColors[colorIdx]};display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px;">${initials}</div>
+                            <span class="font-medium">${data.name}</span>
+                        </div>
+                    </td>
+                    <td class="text-muted">${data.email}</td>
+                    <td>${data.location || 'Not Provided'}</td>
+                    <td>${data.totalOrders}</td>
+                    <td class="font-medium">₹${data.totalSpent.toLocaleString('en-IN')}</td>
+                    <td><span class="status-badge ${data.email === 'Guest' ? 'status-pending' : 'status-completed'}">${data.email === 'Guest' ? 'Guest' : 'Registered'}</span></td>
+                </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        };
+        
+        const q = query(collection(db, 'orders'), orderBy('timestamp', 'desc'));
+        onSnapshot(q, (snapshot) => {
+            window.allOrders = [];
+            snapshot.forEach(doc => {
+                window.allOrders.push({ id: doc.id, ...doc.data() });
+            });
+            renderOrders();
+            renderCustomers();
+        }, (err) => {
+            console.error("Error fetching orders:", err);
+            const tbody = document.getElementById('orders-tbody');
+            if(tbody) tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 20px; color: red;">Error loading orders: ${err.message}</td></tr>`;
+        });
+    </script>
+    <script src="admin.js"></script>
+</body>
+</html>

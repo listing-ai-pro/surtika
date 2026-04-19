@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Surtika | Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;900&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline": "#869486",
+                      "on-secondary-fixed": "#171c23",
+                      "surface-variant": "#31353c",
+                      "on-tertiary-fixed-variant": "#793015",
+                      "on-primary-container": "#005027",
+                      "on-secondary": "#2c3138",
+                      "on-primary-fixed-variant": "#005228",
+                      "inverse-primary": "#006d37",
+                      "on-tertiary-container": "#772e14",
+                      "secondary-fixed": "#dee2ec",
+                      "surface-container-high": "#262a31",
+                      "surface-container-low": "#181c22",
+                      "on-primary": "#003919",
+                      "tertiary": "#ffc0ac",
+                      "secondary-fixed-dim": "#c2c7d0",
+                      "primary": "#54e98a",
+                      "primary-fixed-dim": "#4ae183",
+                      "primary-fixed": "#6bfe9c",
+                      "error-container": "#93000a",
+                      "surface": "#10141a",
+                      "surface-dim": "#10141a",
+                      "primary-container": "#2ecc71",
+                      "surface-container-highest": "#31353c",
+                      "on-surface-variant": "#bbcbbb",
+                      "on-tertiary-fixed": "#390c00",
+                      "inverse-surface": "#dfe2eb",
+                      "on-secondary-container": "#b1b5be",
+                      "secondary-container": "#42474f",
+                      "on-secondary-fixed-variant": "#42474f",
+                      "on-background": "#dfe2eb",
+                      "secondary": "#c2c7d0",
+                      "on-surface": "#dfe2eb",
+                      "tertiary-fixed": "#ffdbd0",
+                      "inverse-on-surface": "#2d3137",
+                      "surface-tint": "#4ae183",
+                      "on-error": "#690005",
+                      "error": "#ffb4ab",
+                      "on-primary-fixed": "#00210c",
+                      "background": "#10141a",
+                      "surface-bright": "#353940",
+                      "on-tertiary": "#5b1a02",
+                      "surface-container": "#1c2026",
+                      "tertiary-container": "#ff9875",
+                      "surface-container-lowest": "#0a0e14",
+                      "outline-variant": "#3d4a3e",
+                      "on-error-container": "#ffdad6",
+                      "tertiary-fixed-dim": "#ffb59d"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {},
+              "fontFamily": {
+                      "headline": [
+                              "Epilogue", "sans-serif"
+                      ],
+                      "body": [
+                              "Inter", "sans-serif"
+                      ],
+                      "label": [
+                              "Inter", "sans-serif"
+                      ]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+      </style>
+</head>
+<body class="bg-background text-on-background font-body min-h-screen flex items-center justify-center selection:bg-primary-container selection:text-on-primary-container">
+<main class="w-full h-screen flex flex-col md:flex-row bg-background overflow-hidden relative">
+<!-- Left Immersive Panel (Hidden on very small screens, visible md and up) -->
+<section class="hidden md:flex md:w-1/2 lg:w-[55%] relative flex-col justify-between p-12 lg:p-20 overflow-hidden bg-surface-container-lowest z-10">
+<!-- Blobs Background / "Organic Shape" Loader Concept adapted for background -->
+<div class="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-primary/20 blur-[100px] z-0 pointer-events-none"></div>
+<div class="absolute bottom-[-20%] right-[-10%] w-[70%] h-[70%] rounded-full bg-primary-container/10 blur-[120px] z-0 pointer-events-none"></div>
+<div class="absolute inset-0 z-0 bg-gradient-to-br from-surface-container-lowest/80 to-background/90 mix-blend-overlay"></div>
+<!-- Brand / Logo -->
+<div class="relative z-10 flex items-baseline space-x-1">
+<h1 class="font-headline font-black text-3xl tracking-tighter text-on-surface italic">SURTIKA</h1>
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_rgba(46,204,113,0.8)]"></span>
+</div>
+<!-- Editorial Content -->
+<div class="relative z-10 max-w-lg mt-auto mb-12">
+<h2 class="font-headline text-5xl lg:text-7xl font-bold text-on-surface leading-[1.1] tracking-[-0.02em] mb-6">
+                    Drop Culture,<br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-container">Delivered.</span>
+</h2>
+<p class="font-body text-on-surface-variant text-lg lg:text-xl leading-relaxed mb-10 max-w-md">
+                    Access exclusive Gen-Z Indian fashion drops before they hit the mainstream. The Kinetic Midnight awaits.
+                </p>
+<!-- Stats Section -->
+<div class="flex space-x-8">
+<div>
+<p class="font-headline font-bold text-2xl text-on-surface">12K+</p>
+<p class="font-label text-sm uppercase tracking-widest text-on-surface-variant mt-1">Members</p>
+</div>
+<div class="w-px bg-outline-variant/30"></div>
+<div>
+<p class="font-headline font-bold text-2xl text-on-surface">500+</p>
+<p class="font-label text-sm uppercase tracking-widest text-on-surface-variant mt-1">Drops</p>
+</div>
+<div class="w-px bg-outline-variant/30"></div>
+<div>
+<p class="font-headline font-bold text-2xl text-on-surface">4.9<span class="text-primary ml-1">★</span></p>
+<p class="font-label text-sm uppercase tracking-widest text-on-surface-variant mt-1">Rating</p>
+</div>
+</div>
+</div>
+<!-- Subtle decorative image overlay -->
+<div class="absolute inset-0 z-0 opacity-20 mix-blend-luminosity pointer-events-none bg-[url('image-streetwear-texture.jpg')] bg-cover bg-center" data-alt="close up subtle grainy texture of dark premium streetwear fabric with faint neon green threading"></div>
+</section>
+<!-- Right Side - Login Form -->
+<section class="w-full md:w-1/2 lg:w-[45%] flex items-center justify-center p-6 sm:p-12 z-20 relative bg-background">
+<!-- Mobile Background Blobs -->
+<div class="md:hidden absolute top-[-5%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary/20 blur-[80px] z-0 pointer-events-none"></div>
+<div class="w-full max-w-md relative z-10">
+<!-- Mobile Logo -->
+<div class="md:hidden flex items-baseline space-x-1 mb-10 justify-center">
+<h1 class="font-headline font-black text-3xl tracking-tighter text-on-surface italic">SURTIKA</h1>
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_rgba(46,204,113,0.8)]"></span>
+</div>
+<!-- Glassmorphism Card -->
+<div class="bg-surface/80 backdrop-blur-[20px] p-8 sm:p-10 rounded-xl border border-outline-variant/15 shadow-[0_4px_30px_rgba(0,0,0,0.3)]">
+<!-- Error Banner -->
+<div id="login-error" class="hidden mb-5 px-4 py-3 rounded-lg bg-error-container/80 text-on-error-container text-sm font-body"></div>
+<div class="mb-8 flex items-baseline">
+<h2 class="font-headline text-3xl font-bold text-on-surface tracking-tight">Welcome back</h2>
+<span class="w-2 h-2 rounded-full bg-primary ml-1 shadow-[0_0_10px_rgba(46,204,113,0.8)]"></span>
+</div>
+<form id="login-form" class="space-y-6">
+<!-- Email Input -->
+<div class="space-y-2">
+<label class="font-label text-sm font-medium text-on-surface-variant" for="email">Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/50" data-icon="mail">mail</span>
+<input class="w-full bg-surface-container-high border-b border-outline-variant text-on-surface placeholder:text-on-surface-variant/40 rounded-t-lg pl-12 pr-4 py-3 focus:outline-none focus:border-primary focus:ring-0 transition-colors bg-opacity-50" id="email" name="email" placeholder="you@example.com" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<label class="font-label text-sm font-medium text-on-surface-variant" for="password">Password</label>
+<a class="text-xs text-primary hover:text-primary-container transition-colors" href="#">Forgot?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/50" data-icon="lock">lock</span>
+<input class="w-full bg-surface-container-high border-b border-outline-variant text-on-surface placeholder:text-on-surface-variant/40 rounded-t-lg pl-12 pr-12 py-3 focus:outline-none focus:border-primary focus:ring-0 transition-colors bg-opacity-50" id="password" name="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors focus:outline-none" type="button">
+<span class="material-symbols-outlined" data-icon="visibility_off">visibility_off</span>
+</button>
+</div>
+</div>
+<!-- CTA Button -->
+<button class="w-full bg-gradient-to-r from-primary to-primary-container text-on-primary-container font-headline font-bold text-lg py-4 rounded-full mt-8 shadow-[0_0_20px_rgba(84,233,138,0.2)] hover:shadow-[0_0_30px_rgba(84,233,138,0.4)] transition-shadow transform hover:scale-[1.02] active:scale-95 duration-200" id="login-btn" type="submit">
+                            Log In
+                        </button>
+</form>
+<!-- Divider -->
+<div class="mt-8 mb-6 flex items-center justify-between">
+<div class="w-full h-px bg-surface-container-high"></div>
+<span class="font-label text-xs text-on-surface-variant px-4 uppercase tracking-wider">Or</span>
+<div class="w-full h-px bg-surface-container-high"></div>
+</div>
+<!-- Social Login -->
+<button class="w-full flex items-center justify-center space-x-3 bg-surface-bright/50 backdrop-blur-md border border-outline-variant/20 hover:bg-surface-container-highest text-on-surface py-3 rounded-full transition-colors duration-200" id="google-btn" type="button">
+<svg class="w-5 h-5" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+<span class="font-label font-medium text-sm">Continue with Google</span>
+</button>
+<!-- Sign Up Link -->
+<p class="mt-8 text-center font-body text-sm text-on-surface-variant">
+                        New to Surtika? 
+                        <a class="text-primary hover:text-primary-container border-b border-primary/30 hover:border-primary transition-colors pb-0.5" href="signup.html">Create account</a>
+</p>
+</div>
+</div>
+</section>
+</main>
+
+<script type="module">
+  import { auth } from './firebase-config.js';
+  import {
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    GoogleAuthProvider,
+    onAuthStateChanged
+  } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+
+  const loginForm = document.getElementById('login-form');
+  const loginBtn  = document.getElementById('login-btn');
+  const googleBtn = document.getElementById('google-btn');
+  const errBanner = document.getElementById('login-error');
+  const pwInput   = document.getElementById('password');
+  const toggleBtn = document.querySelector('button[type="button"]');
+  const gProvider = new GoogleAuthProvider();
+
+  // Password visibility toggle
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      const hidden = pwInput.type === 'password';
+      pwInput.type = hidden ? 'text' : 'password';
+      toggleBtn.querySelector('span').textContent = hidden ? 'visibility' : 'visibility_off';
+    });
+  }
+
+  function showError(msg) {
+    errBanner.textContent = msg;
+    errBanner.classList.remove('hidden');
+  }
+
+  async function postLogin(user) {
+    const token = await user.getIdTokenResult(true);
+    window.location.href = token.claims.admin ? 'admin.html' : 'index.html';
+  }
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errBanner.classList.add('hidden');
+    loginBtn.textContent = 'Logging in…';
+    loginBtn.disabled = true;
+    try {
+      const cred = await signInWithEmailAndPassword(
+        auth,
+        document.getElementById('email').value.trim(),
+        pwInput.value
+      );
+      await postLogin(cred.user);
+    } catch (err) {
+      showError(err.message);
+      loginBtn.textContent = 'Log In';
+      loginBtn.disabled = false;
+    }
+  });
+
+  googleBtn.addEventListener('click', async () => {
+    errBanner.classList.add('hidden');
+    try {
+      const cred = await signInWithPopup(auth, gProvider);
+      await postLogin(cred.user);
+    } catch (err) { showError(err.message); }
+  });
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) await postLogin(user);
+  });
+</script>
+</body></html>

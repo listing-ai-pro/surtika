@@ -1,0 +1,26 @@
+import re
+import os
+
+files = ['index.html', 'shop.html', 'product.html', 'checkout.html']
+
+for file in files:
+    if not os.path.exists(file): continue
+    with open(file, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    old_span = r"<span style=\"font-size:0\.8rem;background:#2ecc71;color:#003919;padding:2px 8px;border-radius:4px;font-weight:600;\">\$\{order\.status \|\| 'Confirmed'\}</span>"
+    
+    new_span = """${(() => {
+                                let st = order.status || 'Confirmed';
+                                let bg = '#2ecc71';
+                                let co = '#003919';
+                                if (st === 'Confirmed') { bg = '#f39c12'; co = '#4d3200'; st = 'Pending'; }
+                                else if (st === 'Processing') { bg = '#3498db'; co = '#00253f'; }
+                                return `<span style="font-size:0.8rem;background:${bg};color:${co};padding:2px 8px;border-radius:4px;font-weight:600;">${st}</span>`;
+                            })()}"""
+                            
+    content = content.replace(old_span, new_span)
+    
+    with open(file, 'w', encoding='utf-8') as f:
+        f.write(content)
+
