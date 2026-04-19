@@ -1,0 +1,16 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Archives
+*.zip
+*.tar.gz
+
+# Local server logs
+*.log
+
+# Firebase keys (if any)
+serviceAccountKey.json
+
+# Node modules (if any)
+node_modules/
