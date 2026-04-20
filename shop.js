@@ -1,143 +1,136 @@
 // shop.js - relies on global 'db' from firebase-config.js
 
+const productGrid = document.querySelector('.product-grid');
+const showingText = document.querySelector('.text-sm.color-muted'); // Updated selector
+let currentUnsubscribe = null;
+let allLoadedProducts = [];
+
 function fixImageUrl(url) {
     if (!url) return 'assets/placeholder.png';
     let fixedUrl = url.trim();
     
     // Dropbox Fix
     if (fixedUrl.includes('dropbox.com')) {
-        // Replace domain
+        // Replace domain to point to direct content
         fixedUrl = fixedUrl.replace('www.dropbox.com', 'dl.dropboxusercontent.com');
-        // Remove trailing parameters like ?dl=0 or ?dl=1
-        fixedUrl = fixedUrl.split('?')[0];
+        
+        // Preserve parameters but force raw=1 for direct rendering
+        if (fixedUrl.includes('?')) {
+            // Replace dl=0 or dl=1 with raw=1
+            fixedUrl = fixedUrl.replace('dl=0', 'raw=1').replace('dl=1', 'raw=1');
+            // If raw=1 is not there at all, add it
+            if (!fixedUrl.includes('raw=1')) {
+                fixedUrl += '&raw=1';
+            }
+        } else {
+            fixedUrl += '?raw=1';
+        }
     }
     
     return fixedUrl;
 }
 
 function renderProduct(product) {
-    const rawImg = (product.variants && product.variants[0] && product.variants[0].images && product.variants[0].images[0])
-                   ? product.variants[0].images[0]
-                   : (product.image || 'assets/placeholder.png');
+    const card = document.createElement('div');
+    card.className = 'product-card reveal';
     
-    const image = fixImageUrl(rawImg);
+    // Priority: Explicit Main Image > First Variant Image > Placeholder
+    let rawImage = product.image || 
+                  (product.variants && product.variants[0] && product.variants[0].images && product.variants[0].images[0] 
+                   ? product.variants[0].images[0] : 'assets/placeholder.png');
+    
+    const image = fixImageUrl(rawImage);
 
-    return `
-        <div class="product-card reveal">
-            <div class="btn-3d-container">
-                <a href="product.html?id=${product.id}" class="product-img-wrap">
-                    <img src="${image}" alt="${product.name}" onerror="this.src='assets/placeholder.png'">
-                </a>
-                <div class="product-info">
-                    <h3 class="product-name">${product.name}</h3>
-                    <p class="product-price">₹${product.price}</p>
-                    <button class="btn-3d" onclick="handleAddToBag3D(this, { 
-                        id: '${product.id}', 
-                        name: '${(product.name || "").replace(/'/g, "\\'")}', 
-                        price: ${product.price || 0}, 
-                        image: '${image}' 
-                    })">
-                        <div class="btn-front">Add to Bag</div>
-                        <div class="btn-back">Added!</div>
-                    </button>
-                </div>
+    card.innerHTML = `
+        <a href="product.html?id=${product.id}" class="product-img-wrap">
+            <img src="${image}" alt="${product.name}">
+        </a>
+        <div class="product-info">
+            <div>
+                <h3 class="product-title">${product.name}</h3>
+                <span class="product-price">₹${(product.price || 0).toLocaleString('en-IN')}</span>
+            </div>
+            <div class="btn-3d-container" style="width: 120px; height: 40px; margin-top: 10px;">
+                <button class="btn-3d" onclick="handleAddToBag3D(this, { id: '${product.id}', name: '${(product.name || "").replace(/'/g, "\\'")}', price: ${product.price || 0}, image: '${image}' })">
+                    <div class="btn-3d-front btn btn-primary" style="font-size: 0.75rem; padding: 0; display: flex; align-items: center; justify-content: center;">Add to Bag</div>
+                    <div class="btn-3d-back" style="font-size: 0.75rem; display: flex; align-items: center; justify-content: center;">Added ✓</div>
+                </button>
             </div>
         </div>
     `;
+    return card;
 }
 
-let currentUnsubscribe = null;
-
-function loadProducts(filterType, filterValue) {
-    const container = document.getElementById('shop-products-grid');
-    const loadingEl = document.getElementById('shop-loading');
+function loadProducts(category = 'All', collectionName = 'All') {
+    if (currentUnsubscribe) currentUnsubscribe();
     
-    if (currentUnsubscribe) {
-        currentUnsubscribe();
-    }
-
-    if (container) container.innerHTML = '';
-    if (loadingEl) loadingEl.style.display = 'block';
-
+    if (productGrid) productGrid.innerHTML = '<div class="loading-shimmer" style="grid-column: 1/-1;"></div>';
+    
     let q = db.collection('products').orderBy('createdAt', 'desc');
-
-    if (filterType === 'category') {
-        q = q.where('category', '==', filterValue);
-    } else if (filterType === 'collection') {
-        q = q.where('collection', '==', filterValue);
+    
+    if (category !== 'All') {
+        q = q.where('category', '==', category);
+    }
+    if (collectionName !== 'All') {
+        q = q.where('collection', '==', collectionName);
     }
 
     currentUnsubscribe = q.onSnapshot((snapshot) => {
-        if (loadingEl) loadingEl.style.display = 'none';
-        if (container) {
-            container.innerHTML = '';
-            if (snapshot.empty) {
-                container.innerHTML = '<div class="no-products">No products found for this selection.</div>';
-                return;
-            }
-            snapshot.forEach((doc) => {
-                const product = { id: doc.id, ...doc.data() };
-                container.innerHTML += renderProduct(product);
-            });
+        allLoadedProducts = [];
+        if (productGrid) productGrid.innerHTML = '';
+        
+        if (snapshot.empty) {
+            if (productGrid) productGrid.innerHTML = '<p class="color-muted" style="grid-column: 1/-1; text-align: center; padding: 40px;">No products found.</p>';
+            if (showingText) showingText.textContent = 'Showing 0 products';
+            return;
+        }
 
-            // Trigger ScrollReveal for new items
-            if (window.ScrollReveal) {
-                ScrollReveal().reveal('.reveal', {
-                    distance: '30px',
-                    duration: 800,
-                    interval: 100,
-                    opacity: 0,
-                    origin: 'bottom',
-                    viewFactor: 0.2
-                });
-            }
+        snapshot.forEach((doc) => {
+            const product = { id: doc.id, ...doc.data() };
+            allLoadedProducts.push(product);
+            if (productGrid) productGrid.appendChild(renderProduct(product));
+        });
+
+        if (showingText) showingText.textContent = `Showing ${allLoadedProducts.length} products`;
+        
+        // Re-init ScrollReveal for new elements
+        if (window.ScrollReveal) {
+            ScrollReveal().reveal('.product-card', {
+                delay: 200,
+                distance: '30px',
+                origin: 'bottom',
+                interval: 100
+            });
         }
     }, (error) => {
-        console.error("Error loading products:", error);
-        if (loadingEl) loadingEl.style.display = 'none';
-        if (container) container.innerHTML = '<div class="no-products">Error loading products. Please try again.</div>';
+        console.error("Firestore error:", error);
+        if (productGrid) productGrid.innerHTML = '<p class="color-muted" style="grid-column: 1/-1; text-align: center; padding: 40px;">Error loading products.</p>';
     });
 }
 
-// ── Search Logic ──────────────────────────────────────────────
-function handleShopSearch(query) {
-    if (!query) {
-        loadProducts(); // Load all
-        return;
-    }
-    const q = query.toLowerCase();
-    // For simple client-side search since Firestore doesn't support partial match easily
-    db.collection('products').get().then(snap => {
-        const container = document.getElementById('shop-products-grid');
-        container.innerHTML = '';
-        let count = 0;
-        snap.forEach(doc => {
-            const p = doc.data();
-            if (p.name.toLowerCase().includes(q) || (p.category && p.category.toLowerCase().includes(q))) {
-                container.innerHTML += renderProduct({ id: doc.id, ...p });
-                count++;
-            }
-        });
-        if (count === 0) container.innerHTML = '<div class="no-products">No matches found.</div>';
-    });
-}
-
-// ── Init ──────────────────────────────────────────────────────
+// Initial Load
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
-    const coll = params.get('collection');
-    const cat  = params.get('category');
+    const category = params.get('category') || 'All';
+    const collectionName = params.get('collection') || 'All';
     
-    if (coll) {
-        loadProducts('collection', coll);
-        // Update UI if there's a title
-        const titleEl = document.getElementById('shop-title');
-        if (titleEl) titleEl.textContent = coll;
-    } else if (cat) {
-        loadProducts('category', cat);
-        const titleEl = document.getElementById('shop-title');
-        if (titleEl) titleEl.textContent = cat;
-    } else {
-        loadProducts();
-    }
+    loadProducts(category, collectionName);
+
+    // Category Filter Listeners
+    document.querySelectorAll('.filter-tag').forEach(tag => {
+        tag.addEventListener('click', (e) => {
+            document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+            tag.classList.add('active');
+            loadProducts(tag.textContent.trim(), 'All');
+        });
+    });
+
+    // Collection Filter Listeners (if any in sidebar)
+    document.querySelectorAll('.sidebar-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const coll = link.textContent.trim();
+            loadProducts('All', coll);
+        });
+    });
 });

@@ -8,7 +8,14 @@ function fixImageUrl(url) {
     // Dropbox Fix
     if (fixedUrl.includes('dropbox.com')) {
         fixedUrl = fixedUrl.replace('www.dropbox.com', 'dl.dropboxusercontent.com');
-        fixedUrl = fixedUrl.split('?')[0];
+        if (fixedUrl.includes('?')) {
+            fixedUrl = fixedUrl.replace('dl=0', 'raw=1').replace('dl=1', 'raw=1');
+            if (!fixedUrl.includes('raw=1')) {
+                fixedUrl += '&raw=1';
+            }
+        } else {
+            fixedUrl += '?raw=1';
+        }
     }
     return fixedUrl;
 }
@@ -51,36 +58,36 @@ async function loadCollectionProducts(collectionName, containerId) {
                     <p class="product-price">₹${product.price}</p>
                     <button class="btn-3d" onclick="handleAddToBag3D(this, { 
                         id: '${product.id}', 
-                        name: '${(product.name || "").replace(/'/g, "\\'")}', 
-                        price: ${product.price || 0}, 
+                        name: '${product.name.replace(/'/g, "\\'")}', 
+                        price: ${product.price}, 
                         image: '${productImg}' 
                     })">
-                        Add to Bag
+                        <div class="btn-3d-front btn btn-primary" style="font-size:0.75rem; padding:8px 16px;">Add to Bag</div>
+                        <div class="btn-3d-back" style="font-size:0.75rem;">Added!</div>
                     </button>
                 </div>
             `;
             container.appendChild(card);
         });
 
-        // Trigger animations if ScrollReveal is present
+        // Trigger ScrollReveal if it exists
         if (window.ScrollReveal) {
-            ScrollReveal().reveal('.reveal', {
-                distance: '30px',
-                duration: 800,
+            ScrollReveal().reveal('.product-card', {
                 interval: 100,
-                opacity: 0,
+                distance: '20px',
                 origin: 'bottom',
-                viewFactor: 0.2
+                opacity: 0,
+                delay: 300
             });
         }
 
     } catch (error) {
-        console.error(`Error loading ${collectionName}:`, error);
-        container.innerHTML = '<p style="color:white; opacity:0.6;">Failed to load products.</p>';
+        console.error(`Error loading collection ${collectionName}:`, error);
+        container.innerHTML = '<p style="color:white; opacity:0.6;">Unable to load products.</p>';
     }
 }
 
-// Initialize when DOM is ready
+// Initial execution
 document.addEventListener('DOMContentLoaded', () => {
     loadCollectionProducts('Mera Tops', 'collection-mera-container');
     loadCollectionProducts('Best Sellers', 'collection-bestsellers-container');

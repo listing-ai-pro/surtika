@@ -29,7 +29,14 @@ function fixImageUrl(url) {
     // Dropbox Fix
     if (fixedUrl.includes('dropbox.com')) {
         fixedUrl = fixedUrl.replace('www.dropbox.com', 'dl.dropboxusercontent.com');
-        fixedUrl = fixedUrl.split('?')[0];
+        if (fixedUrl.includes('?')) {
+            fixedUrl = fixedUrl.replace('dl=0', 'raw=1').replace('dl=1', 'raw=1');
+            if (!fixedUrl.includes('raw=1')) {
+                fixedUrl += '&raw=1';
+            }
+        } else {
+            fixedUrl += '?raw=1';
+        }
     }
     return fixedUrl;
 }
