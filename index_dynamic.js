@@ -1,0 +1,87 @@
+// index_dynamic.js - For Home Page Collections (Compat Mode)
+// This script relies on 'db' being defined globally by firebase-config.js
+
+function fixImageUrl(url) {
+    if (!url) return 'assets/placeholder.png';
+    let fixedUrl = url.trim();
+    
+    // Dropbox Fix
+    if (fixedUrl.includes('dropbox.com')) {
+        fixedUrl = fixedUrl.replace('www.dropbox.com', 'dl.dropboxusercontent.com');
+        fixedUrl = fixedUrl.split('?')[0];
+    }
+    return fixedUrl;
+}
+
+async function loadCollectionProducts(collectionName, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    try {
+        // Using Compat SDK (v8 style) to match firebase-config.js
+        const snapshot = await db.collection('products')
+            .where('collection', '==', collectionName)
+            .orderBy('createdAt', 'desc')
+            .limit(4)
+            .get();
+
+        container.innerHTML = '';
+        
+        if (snapshot.empty) {
+            container.innerHTML = '<p style="color:white; opacity:0.6;">No products found in this collection.</p>';
+            return;
+        }
+
+        snapshot.forEach(doc => {
+            const product = { id: doc.id, ...doc.data() };
+            const rawImg = (product.variants && product.variants[0] && product.variants[0].images && product.variants[0].images[0])
+                           ? product.variants[0].images[0]
+                           : (product.image || 'assets/placeholder.png');
+            
+            const productImg = fixImageUrl(rawImg);
+
+            const card = document.createElement('div');
+            card.className = 'product-card reveal';
+            card.innerHTML = `
+                <a href="product.html?id=${product.id}" class="product-img-wrap">
+                    <img src="${productImg}" alt="${product.name}" onerror="this.src='assets/placeholder.png'">
+                </a>
+                <div class="product-info">
+                    <h3 class="product-name">${product.name}</h3>
+                    <p class="product-price">₹${product.price}</p>
+                    <button class="btn-3d" onclick="handleAddToBag3D(this, { 
+                        id: '${product.id}', 
+                        name: '${(product.name || "").replace(/'/g, "\\'")}', 
+                        price: ${product.price || 0}, 
+                        image: '${productImg}' 
+                    })">
+                        Add to Bag
+                    </button>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        // Trigger animations if ScrollReveal is present
+        if (window.ScrollReveal) {
+            ScrollReveal().reveal('.reveal', {
+                distance: '30px',
+                duration: 800,
+                interval: 100,
+                opacity: 0,
+                origin: 'bottom',
+                viewFactor: 0.2
+            });
+        }
+
+    } catch (error) {
+        console.error(`Error loading ${collectionName}:`, error);
+        container.innerHTML = '<p style="color:white; opacity:0.6;">Failed to load products.</p>';
+    }
+}
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    loadCollectionProducts('Mera Tops', 'collection-mera-container');
+    loadCollectionProducts('Best Sellers', 'collection-bestsellers-container');
+});
